@@ -115,7 +115,9 @@ jobs:
           --trail ${GIT_COMMIT} \
           --name docker-image \
           --build-url ${BUILD_URL} \
-          --commit-url ${COMMIT_URL}
+          --commit-url ${COMMIT_URL} \
+          --registry-username $docker_username \
+          --registry-password $docker_password
     - name: Generate SBOM for the docker image
       uses: anchore/sbom-action@v0
       with:
@@ -136,7 +138,9 @@ jobs:
           --trail ${GIT_COMMIT} \
           --name docker-image.sbom \
           --artifact-type oci ${IMAGE_NAME} \
-          --attachments sbom.spdx.json
+          --attachments sbom.spdx.json \
+          --registry-username $docker_username \
+          --registry-password $docker_password
   Security-scan:
     runs-on: ubuntu-latest
     needs: Docker-image
